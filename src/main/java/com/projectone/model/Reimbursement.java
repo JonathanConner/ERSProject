@@ -18,7 +18,7 @@ import oracle.sql.BLOB;
  */
 public class Reimbursement extends DomainObject {
 
-	private int id;
+	private long id;
 	private double amount;
 	private Timestamp submittedDate;
 	private Timestamp resolvedDate = null;
@@ -67,7 +67,7 @@ public class Reimbursement extends DomainObject {
 	 * @param status
 	 * @param type
 	 */
-	public Reimbursement(int id, double amount, String description, User author, User resolver,
+	public Reimbursement(long id, double amount, String description, User author, User resolver,
 			ReimbursementStatus status, ReimbursementType type) {
 		super();
 		this.id = id;
@@ -81,11 +81,11 @@ public class Reimbursement extends DomainObject {
 
 	
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

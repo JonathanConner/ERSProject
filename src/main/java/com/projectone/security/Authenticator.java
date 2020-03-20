@@ -1,7 +1,7 @@
 
 package com.projectone.security;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import com.projectone.model.User;
 import com.projectone.model.UserStatus;
@@ -12,7 +12,7 @@ import com.projectone.model.UserStatus;
  */
 public class Authenticator {
 
-	private static Logger logger = Logger.getLogger(Authenticator.class);
+	private static org.apache.logging.log4j.Logger logger = LogManager.getLogger(Authenticator.class);
 
 	private PBKDF2Hasher hasher;
 

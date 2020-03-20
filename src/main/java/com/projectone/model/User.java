@@ -22,14 +22,14 @@ import com.projectone.security.Password;
 @JsonIgnoreProperties({"password"})
 public class User extends DomainObject{
 
-	private int id;
+	private long id;
 	private String username;
 	private Password password = new Password();
 	private String firstName;
 	private String lastName;
 	private String email;
 
-	private List<Role> userRoles;
+	private Role role;
 
 	private UserStatus status;
 	
@@ -47,14 +47,14 @@ public class User extends DomainObject{
 	 */
 	@JsonCreator
 	public User(
-			@JsonProperty("id") int id, 
+			@JsonProperty("id") long id, 
 			@JsonProperty("username") String username, 
 			@JsonProperty("password") String password, 
 			@JsonProperty("firstName") String firstName, 
 			@JsonProperty("lastName") String lastName, 
 			@JsonProperty("email") String email,
-			@JsonProperty("status") UserStatus status) 
-	{
+			@JsonProperty("role") Role role
+	) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -62,15 +62,15 @@ public class User extends DomainObject{
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
-		this.status = status;
+		this.role = role;
 		this.reimbursements = new ArrayList<Reimbursement>();
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -114,12 +114,12 @@ public class User extends DomainObject{
 		this.email = email;
 	}
 
-	public List<Role> getUserRoles() {
-		return userRoles;
+	public Role getUserRole() {
+		return role;
 	}
 
-	public void setUserRoles(List<Role> userRoles) {
-		this.userRoles = userRoles;
+	public void setUserRole(Role userRole) {
+		this.role = userRole;
 	}
 
 	public UserStatus getStatus() {
@@ -145,7 +145,7 @@ public class User extends DomainObject{
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(email, firstName, id, lastName, password, userRoles, username);
+		return Objects.hash(email, firstName, id, lastName, password, role, username);
 	}
 
 	@Override
@@ -159,14 +159,14 @@ public class User extends DomainObject{
 		User other = (User) obj;
 		return Objects.equals(email, other.email) && Objects.equals(firstName, other.firstName) && id == other.id
 				&& Objects.equals(lastName, other.lastName) && Objects.equals(password, other.password)
-				&& Objects.equals(userRoles, other.userRoles) && Objects.equals(username, other.username);
+				&& Objects.equals(role, other.role) && Objects.equals(username, other.username);
 	}
 
 	
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", firstName=" + firstName
-				+ ", lastName=" + lastName + ", email=" + email + ", userRoles=" + userRoles + "]";
+				+ ", lastName=" + lastName + ", email=" + email + ", role=" + role + "]";
 	}
 
 	

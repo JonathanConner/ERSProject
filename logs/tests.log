@@ -1,0 +1,39 @@
+2020-03-19 23:29:59 WARN  UserMapper:48 - java.sql.SQLException: Invalid column name
+2020-03-19 23:33:05 WARN  UserMapper:48 - java.sql.SQLException: Fail to convert to internal representation
+2020-03-19 23:36:29 WARN  UserMapper:48 - java.sql.SQLException: Fail to convert to internal representation
+2020-03-19 23:39:17 WARN  UserMapper:48 - java.sql.SQLSyntaxErrorException: ORA-00904: "U"."ERS_USER_ID": invalid identifier
+
+2020-03-19 23:39:53 INFO  UserMapper:32 - doLoad()
+2020-03-19 23:39:53 WARN  UserMapper:48 - java.sql.SQLException: Invalid column name
+2020-03-19 23:40:49 INFO  UserMapper:32 - doLoad()
+2020-03-19 23:40:49 INFO  UserMapper:65 - class com.projectone.model.mapper.UserMapper: Added to the loaded HashMap<long, DomainObject<User>> 
+2020-03-20 04:15:22 INFO  UserMapper:40 - doLoad()
+2020-03-20 04:15:22 INFO  UserMapper:65 - class com.projectone.model.mapper.UserMapper: Added to the loaded HashMap<long, DomainObject<User>> 
+2020-03-20 04:15:23 INFO  UserMapper:40 - doLoad()
+2020-03-20 04:15:23 INFO  UserMapper:65 - class com.projectone.model.mapper.UserMapper: Added to the loaded HashMap<long, DomainObject<User>> 
+2020-03-20 04:15:23 INFO  MapperTestCase:67 - thisisatestpassword
+2020-03-20 04:15:23 INFO  MapperTestCase:74 - $31$16$wT_tfsjiqjiWNFykpGtvDyr1d2NiaPFMCK94dqbRikM
+2020-03-20 04:19:32 INFO  UserMapper:40 - doLoad()
+2020-03-20 04:19:32 INFO  UserMapper:65 - class com.projectone.model.mapper.UserMapper: Added to the loaded HashMap<long, DomainObject<User>> 
+2020-03-20 04:19:33 INFO  MapperTestCase:71 - thisisatestpassword
+2020-03-20 04:19:33 INFO  MapperTestCase:78 - $31$16$FyR5qKzRnMuCrzXc-3YVdIpunvC7CiG2W2FVgF64AbI
+2020-03-20 05:37:15 WARN  UserMapper:69 - java.sql.SQLIntegrityConstraintViolationException: ORA-00001: unique constraint (ADMIN.ERS_USERS__UNV1) violated
+
+2020-03-20 05:37:16 INFO  UserMapper:40 - doLoad()
+2020-03-20 05:37:16 INFO  UserMapper:65 - class com.projectone.model.mapper.UserMapper: Added to the loaded HashMap<long, DomainObject<User>> 
+2020-03-20 05:37:24 INFO  MapperTestCase:85 - $31$20$k_NYSfUkCuDKKu1SYecKqwqkBfyzlB3OVzEtu0mKO-c
+2020-03-20 06:06:11 WARN  UserMapper:71 - java.sql.SQLIntegrityConstraintViolationException: ORA-00001: unique constraint (ADMIN.ERS_USERS__UNV1) violated
+
+2020-03-20 06:06:11 INFO  UserMapper:41 - doLoad()
+2020-03-20 06:06:11 INFO  UserMapper:65 - class com.projectone.model.mapper.UserMapper: Added to the loaded HashMap<long, DomainObject<User>> 
+2020-03-20 06:06:17 INFO  MapperTestCase:85 - $31$20$Mh_H5kWEZt1xd7nh6Bd9GqfzSkz13WQllPcXRFNxlr8
+2020-03-20 06:07:03 WARN  UserMapper:71 - java.sql.SQLIntegrityConstraintViolationException: ORA-00001: unique constraint (ADMIN.ERS_USERS__UNV1) violated
+
+2020-03-20 06:07:03 INFO  UserMapper:41 - doLoad()
+2020-03-20 06:07:03 INFO  UserMapper:65 - class com.projectone.model.mapper.UserMapper: Added to the loaded HashMap<long, DomainObject<User>> 
+2020-03-20 06:07:09 INFO  MapperTestCase:85 - $31$20$ix8fqYd4S_80aZ-xXPMprBDG5qnagBwBLa4sgvJjJDM
+2020-03-20 06:08:04 WARN  UserMapper:71 - java.sql.SQLIntegrityConstraintViolationException: ORA-00001: unique constraint (ADMIN.ERS_USERS__UNV1) violated
+
+2020-03-20 06:08:04 INFO  UserMapper:41 - doLoad()
+2020-03-20 06:08:04 INFO  UserMapper:65 - class com.projectone.model.mapper.UserMapper: Added to the loaded HashMap<long, DomainObject<User>> 
+2020-03-20 06:08:08 INFO  MapperTestCase:85 - $31$20$ZmYZSv86JqTNBBOkArrAdsJ2yqB0aR2cPIQ1_LctUlQ
