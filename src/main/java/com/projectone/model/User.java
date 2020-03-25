@@ -66,6 +66,7 @@ public class User extends DomainObject{
 		this.reimbursements = new ArrayList<Reimbursement>();
 	}
 
+	public User() {super();}
 	public long getId() {
 		return id;
 	}

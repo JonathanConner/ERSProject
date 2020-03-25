@@ -79,7 +79,7 @@ public class Reimbursement extends DomainObject {
 		this.type = type;
 	}
 
-	
+	public Reimbursement() {}
 
 	public long getId() {
 		return id;

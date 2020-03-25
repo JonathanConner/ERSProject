@@ -2,6 +2,10 @@ package com.projectone.test;
 
 import static org.junit.Assert.*;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 import org.apache.logging.log4j.LogManager;
@@ -16,6 +20,7 @@ import com.projectone.model.User;
 import com.projectone.model.mapper.AbstractMapper;
 import com.projectone.model.mapper.UserMapper;
 import com.projectone.security.SecurityService;
+import com.projectone.util.ConnectionUtil;
 
 public class MapperTestCase {
 
@@ -41,73 +46,54 @@ public class MapperTestCase {
 	public void tearDown() throws Exception {
 	}
 
-	@Test
-	public void testMapperFind() {
-		User user = (User) this.am.find(1);
+	/*
+	 * @Test public void testMapperFind() { User user = (User) this.am.find(1);
+	 * 
+	 * System.out.println(user.toJSONString());
+	 * 
+	 * }
+	 * 
+	 * @Test public void testMapperInsert() { // String[] str = new String[6]; //
+	 * str[0] = "thisisatest"; // str[1] = "password"; // str[2] = "test@test.com";
+	 * // str[3] = "Test"; // str[4] = "User"; // // if (this.am.insert(str)) //
+	 * System.out.println("REGISTER COMPLETE");
+	 * 
+	 * }
+	 */
 
-		System.out.println(user.toJSONString());
 
-	}
-
-	@Test
-	public void testMapperInsert() {
-//		String[] str = new String[6];
-//		str[0] = "thisisatest";
-//		str[1] = "password";
-//		str[2] = "test@test.com";
-//		str[3] = "Test";
-//		str[4] = "User";
-//
-//		if (this.am.insert(str))
-//			System.out.println("REGISTER COMPLETE");
-
-	}
-
-	@Test
-	public void testPasswordHash() {
-
-		Scanner in = new Scanner(System.in);
-
-		System.out.println("Raw String value is: \n\t");
-
-		String password = in.nextLine();
-
-		String secure = this.sec.hashPassword(password);
-
-		System.out.println("Secure hashed value! :");
-		System.out.println(secure);
-		System.out.println("Hash length: ");
-		System.out.println(secure.length());
-
-		LogManager.getLogger(MapperTestCase.class).info(secure);
-
-	}
 
 	@Test
 	public void testUserAuthentication() {
+		String un = "TestEmployee";
+		User user = new User();
+		try (Connection conn = ConnectionUtil.getConnection()){
+			
+			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM ers_users u WHERE u.ers_username = ?");
 
-		Scanner in = new Scanner(System.in);
+			stmt.setString(1, un);
 
-		System.out.println("Username:");
-
-		String username = in.nextLine();
-
-		System.out.println("Password:");
-
-		String password = in.nextLine();
-
-		User user = this.am.findByUserName(username);
-		
-		assertNotNull(user);
-		
-		if(this.sec.checkPassword(password, user.getPassword().toString())) {
-			LogManager.getLogger(MapperTestCase.class).info("User has Authenticated!");
+			ResultSet rs = stmt.executeQuery();
+			rs.next();
+			
+			user.setId(rs.getLong(1));
+			user.setUsername(rs.getString(2));
+			user.setPassword(rs.getString(3));
+			user.setFirstName(rs.getString(4));
+			user.setLastName(rs.getString(5));
+			user.setEmail(rs.getString(6));
+			user.setUserRole(Role.Employee);
+			
+			LogManager.getLogger(MapperTestCase.class).info(user.toJSONString());
+			
+		}catch(SQLException sqle) {
+			System.out.println(sqle);
 		}
 		
-		
-		
-		
-		
+		System.out.println(user.toJSONString());
+		LogManager.getLogger(MapperTestCase.class).info(user.toJSONString());
+
+
 	}
 
 }
