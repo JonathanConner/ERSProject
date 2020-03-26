@@ -32,9 +32,17 @@ public class ReimbursementService {
 		
 	}
 	
-	public Reimbursement updateReimbursement(long uid, long rid) {
+	/**
+	 * returns the number of rows updated
+	 * returns 0 for no rows updated
+	 * @param uid
+	 * @param status
+	 * @param rid
+	 * @return
+	 */
+	public int updateReimbursement(long uid, int status, long rid) {
 		
-		return this.rdao.update(uid, rid);
+		return this.rdao.update(uid, status, rid);
 		
 	}
 	

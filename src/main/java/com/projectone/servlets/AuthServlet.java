@@ -20,6 +20,7 @@ import org.apache.logging.log4j.Logger;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.projectone.dao.UserDAOImpl;
 import com.projectone.model.LoginTemplate;
+import com.projectone.model.ReimbursementType;
 import com.projectone.model.Role;
 import com.projectone.model.User;
 import com.projectone.services.UserService;
@@ -89,7 +90,15 @@ public class AuthServlet extends HttpServlet {
 				user.setFirstName(rs.getString(4));
 				user.setLastName(rs.getString(5));
 				user.setEmail(rs.getString(6));
-				user.setUserRole(Role.Employee);
+				int role_id = rs.getInt("USER_ROLE_ID");
+				if(role_id == 1)
+				{
+					user.setUserRole(Role.Admin);
+				}else if(role_id == 2) {
+					user.setUserRole(Role.FinManager);
+				}else if(role_id == 3) {
+					user.setUserRole(Role.Employee);
+				}
 				LogManager.getLogger(UserDAOImpl.class).info(user.toJSONString());
 				
 			}catch(SQLException sqle) {

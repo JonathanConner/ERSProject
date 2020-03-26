@@ -58,6 +58,8 @@ public class Reimbursement extends DomainObject {
 	private ReimbursementType type;
 	
 	
+	private String buttons;
+	
 	/**
 	 * @param id
 	 * @param amount
@@ -79,8 +81,22 @@ public class Reimbursement extends DomainObject {
 		this.type = type;
 	}
 
+	
+	
 	public Reimbursement() {}
 
+	
+	public void setButtons() {
+		long id = this.getId();
+		this.buttons = new String("<button class='approve' id="+id+">APPROVE</button><button class='deny' id="+id+">DENY</button>");
+	}
+	
+	
+	public String getButtons() {
+		return this.buttons;
+	}
+	
+	
 	public long getId() {
 		return id;
 	}

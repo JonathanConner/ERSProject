@@ -46,6 +46,7 @@ public class ReimbursementServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("application/json");
 		
 		String action = request.getParameter("action");
 
@@ -85,7 +86,7 @@ public class ReimbursementServlet extends HttpServlet {
 		
 		reimbs.forEach(r->{System.out.println(r.toJSONString());});
 		
-		String array = JSONConverter.writeListToJsonArray(reimbs);
+		String array = JSONConverter.writeListToJsonArrayWithButtons(reimbs);
 		
 		pw.println(array);
 		
@@ -93,11 +94,18 @@ public class ReimbursementServlet extends HttpServlet {
 	
 	
 	public void updateRecord(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-		String resolverId = request.getParameter("resolver");
-		String reimbId = request.getParameter("reimbid");
+		
+		long resolverId = Long.parseLong(request.getParameter("resolver"));
+		long reimbId = Long.parseLong(request.getParameter("reimbid"));
+		
 		String status = request.getParameter("status");
+		int statusId = ReimbursementStatus.valueOf(status).ordinal()+1; //calculate actual database status ID from enum
 		
+		int result = this.rs.updateReimbursement(resolverId, statusId, reimbId);
 		
+		PrintWriter pw = response.getWriter();
+		logger.info("{updates:"+result+"}");
+		pw.println("{updates:"+result+"}");
 	}
 	
 	/**

@@ -174,7 +174,25 @@ public class ReimbursementDAOImpl implements ReimbursementDAO {
 	 * 
 	 * @return
 	 */
-	public Reimbursement update(long uid, long rid) {
-		return new Reimbursement();
+	public int update(long resolverid,  int status, long reimbid) {
+		
+		String sql = "UPDATE ERS_REIMBURSEMENT SET REIMB_RESOLVER = ?, REIMB_STATUS_ID = ? WHERE REIMB_ID = ?";
+		try (Connection conn = ConnectionUtil.getConnection()) {
+			
+			PreparedStatement stmt  = conn.prepareStatement(sql);
+		
+			stmt.setLong(1, resolverid);
+			stmt.setInt(2, status);
+			stmt.setLong(3, reimbid);
+			
+			int rows = stmt.executeUpdate();
+			
+			return rows;
+			
+		} catch (SQLException sqle) {
+			logger.warn("SQL Exception",sqle);
+		}
+		
+		return 0;
 	}
 }
