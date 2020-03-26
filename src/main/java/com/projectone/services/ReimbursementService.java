@@ -26,4 +26,17 @@ public class ReimbursementService {
 		
 	}
 	
+	public List<Reimbursement> fetchAll(){
+		
+		return this.rdao.findAll();
+		
+	}
+	
+	public Reimbursement updateReimbursement(long uid, long rid) {
+		
+		return this.rdao.update(uid, rid);
+		
+	}
+	
+	
 }

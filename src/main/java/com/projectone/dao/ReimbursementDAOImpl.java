@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,12 +38,51 @@ public class ReimbursementDAOImpl implements ReimbursementDAO {
 
 		try (Connection conn = ConnectionUtil.getConnection()) {
 
-			// Find all reimbursements
+			String sql = "SELECT * FROM ers_reimbursement";
+			Statement stmt = conn.createStatement();
+			
+			ResultSet rs = stmt.executeQuery(sql);
 
+			
+			while(rs.next()) {
+				Reimbursement reimb = new Reimbursement();
+				reimb.setId(rs.getLong("REIMB_ID"));
+				reimb.setDescription(rs.getString("REIMB_DESCRIPTION"));
+				reimb.setAmount(rs.getDouble("REIMB_AMOUNT"));
+				int status_id = rs.getInt("REIMB_STATUS_ID");
+				int type_id = rs.getInt("REIMB_TYPE_ID");
+				
+				if(status_id == 1) {
+					reimb.setStatus(ReimbursementStatus.PENDING);
+				}else if(status_id == 2){
+					reimb.setStatus(ReimbursementStatus.APPROVED);
+				}else {
+					reimb.setStatus(ReimbursementStatus.DENIED);
+				}
+				
+				if(type_id == 1)
+				{
+					reimb.setType(ReimbursementType.TRAVEL);
+				}else if(type_id == 2) {
+					reimb.setType(ReimbursementType.LODGING);
+				}else if(type_id == 3) {
+					reimb.setType(ReimbursementType.FOOD);
+				}else {
+					reimb.setType(ReimbursementType.OTHER);
+				}
+				
+				reimb.setSubmittedDate(rs.getTimestamp("REIMB_SUBMITTED"));
+				reimb.setResolvedDate(rs.getTimestamp("REIMB_RESOLVED"));
+				reimb.setReceiptBlob(rs.getBlob("REIMB_RECEIPT"));
+				
+				list.add(reimb);
+			}
+			return list;
 		} catch (SQLException sqle) {
 		}
 
 		return list;
+		
 	}
 
 	
@@ -129,4 +169,12 @@ public class ReimbursementDAOImpl implements ReimbursementDAO {
 		
 	}
 	
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Reimbursement update(long uid, long rid) {
+		return new Reimbursement();
+	}
 }

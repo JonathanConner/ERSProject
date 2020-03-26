@@ -21,6 +21,7 @@ import com.projectone.model.ReimbursementTemplate;
 import com.projectone.model.ReimbursementType;
 import com.projectone.services.ReimbursementService;
 import com.projectone.services.UserService;
+import com.projectone.util.JSONConverter;
 
 /**
  * Servlet implementation class ReimbursementServlet
@@ -46,9 +47,59 @@ public class ReimbursementServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		String action = request.getParameter("action");
+
+		switch(action) {
+			case "update":updateRecord(request, response);
+				break;
+			case "fetchall": fetchAll(request, response);
+				break;
+
+			case "fetchfor": fetchAll(request, response);
+				break;
+		}
 
 	}
 
+
+	public void fetchFor(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+	
+		PrintWriter pw = response.getWriter();
+		
+		List<Reimbursement> reimbs = this.rs.findAllForUser(Long.parseLong(request.getParameter("uid")));
+		
+		reimbs.forEach(r->{System.out.println(r.toJSONString());});
+		
+		String array = JSONConverter.writeListToJsonArray(reimbs);
+		
+		pw.println(array);
+		
+	}
+
+	
+	public void fetchAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+	
+		PrintWriter pw = response.getWriter();
+		
+		List<Reimbursement> reimbs = this.rs.fetchAll();
+		
+		reimbs.forEach(r->{System.out.println(r.toJSONString());});
+		
+		String array = JSONConverter.writeListToJsonArray(reimbs);
+		
+		pw.println(array);
+		
+	}
+	
+	
+	public void updateRecord(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		String resolverId = request.getParameter("resolver");
+		String reimbId = request.getParameter("reimbid");
+		String status = request.getParameter("status");
+		
+		
+	}
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -72,12 +123,14 @@ public class ReimbursementServlet extends HttpServlet {
 			logger.info("Add reimbursement FAILED!");
 		}
 		PrintWriter pw = response.getWriter();
-		List<Reimbursement> reimbs = this.rs.findAllForUser(reimbTemp.getUid());
-		reimbs.forEach(r->{System.out.println(r.toJSONString());});
-		pw.print("[");
-		reimbs.forEach(r->{pw.print(r.toJSONString()+",");});
-		pw.print("]");
 		
+		List<Reimbursement> reimbs = this.rs.findAllForUser(reimbTemp.getUid());
+		
+		reimbs.forEach(r->{System.out.println(r.toJSONString());});
+		
+		String array = JSONConverter.writeListToJsonArray(reimbs);
+		
+		pw.print(array);
 		
 	}
 
