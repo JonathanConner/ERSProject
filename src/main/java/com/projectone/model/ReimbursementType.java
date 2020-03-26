@@ -1,5 +1,5 @@
 package com.projectone.model;
 
 public enum ReimbursementType {
-	LODGING, FOOD, TRAVEL, OTHER
+	TRAVEL, LODGING, FOOD, OTHER
 }

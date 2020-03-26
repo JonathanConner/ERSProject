@@ -1,5 +1,7 @@
 package com.projectone.services;
 
+import java.util.List;
+
 import com.projectone.dao.ReimbursementDAOImpl;
 import com.projectone.model.Reimbursement;
 
@@ -18,6 +20,10 @@ public class ReimbursementService {
 		
 	}
 	
-	
+	public List<Reimbursement> findAllForUser(long uid){
+		
+		return this.rdao.findAllReimbursementsForUser(uid);
+		
+	}
 	
 }
