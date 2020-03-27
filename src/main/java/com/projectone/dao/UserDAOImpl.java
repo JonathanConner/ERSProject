@@ -31,7 +31,7 @@ public class UserDAOImpl implements UserDAO {
 	 * @param input
 	 * @return
 	 */
-	public static boolean insert(String... input) {
+	public boolean insert(String... input) {
 
 		try (Connection conn = ConnectionUtil.getConnection()) {
 

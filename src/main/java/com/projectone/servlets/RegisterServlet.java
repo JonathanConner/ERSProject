@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 
 import com.projectone.model.mapper.*;
 import com.projectone.security.SecurityService;
+import com.projectone.services.UserService;
 
 /**
  * Servlet implementation class RegisterServlet
@@ -58,8 +59,8 @@ public class RegisterServlet extends HttpServlet {
 		String firstName = request.getParameter("firstName");
 		String lastName = request.getParameter("lastName");
 		
-		
-		UserMapper.insert(username, secure, email, firstName, lastName);
+		UserService us = new UserService();
+		us.insert(username, secure, email, firstName, lastName);
 		
 		
 		logger.info(secure);

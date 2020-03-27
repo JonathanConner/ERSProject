@@ -46,5 +46,11 @@ public class UserService {
 	public List<User> findAll(){
 		return this.udao.findAll();
 	}
+
+
+
+	public void insert(String username, String secure, String email, String firstName, String lastName) {
+		this.udao.insert(username, secure, email, firstName, lastName);
+	}
 	
 }

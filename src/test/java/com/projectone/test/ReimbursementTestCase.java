@@ -44,7 +44,6 @@ public class ReimbursementTestCase {
 		
 		assertTrue(this.rdao.insert(3, reimb));
 		
-	
 	}
 
 }

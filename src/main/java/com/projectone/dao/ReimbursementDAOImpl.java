@@ -39,7 +39,7 @@ public class ReimbursementDAOImpl implements ReimbursementDAO {
 
 		try (Connection conn = ConnectionUtil.getConnection()) {
 
-			String sql = "SELECT * FROM view_reimbursements";
+			String sql = "SELECT * FROM view_reimbursements WHERE USER_ROLE_ID = 3";
 			Statement stmt = conn.createStatement();
 			
 			ResultSet rs = stmt.executeQuery(sql);
@@ -153,6 +153,9 @@ public class ReimbursementDAOImpl implements ReimbursementDAO {
 		return list;
 	}
 
+	/**
+	 * This performs insertion on the database of a new reimbursement
+	 */
 	public boolean insert(long userid, Reimbursement reimb) {
 		String sql = "INSERT INTO ERS_REIMBURSEMENT (REIMB_AMOUNT, REIMB_DESCRIPTION, REIMB_RECEIPT, REIMB_AUTHOR, REIMB_STATUS_ID, REIMB_TYPE_ID) VALUES (?,?,?,?,?,?)";
 		try (Connection conn = ConnectionUtil.getConnection()) {
@@ -187,7 +190,7 @@ public class ReimbursementDAOImpl implements ReimbursementDAO {
 	}
 
 	/**
-	 * 
+	 * This is performs an update for a specified reimbursement
 	 * @return
 	 */
 	public int update(long resolverid,  int status, long reimbid) {

@@ -22,7 +22,7 @@ import com.projectone.model.mapper.UserMapper;
 import com.projectone.security.SecurityService;
 import com.projectone.util.ConnectionUtil;
 
-public class MapperTestCase {
+public class UserTestCase {
 
 	private UserMapper am;
 
@@ -84,14 +84,14 @@ public class MapperTestCase {
 			user.setEmail(rs.getString(6));
 			user.setUserRole(Role.Employee);
 			
-			LogManager.getLogger(MapperTestCase.class).info(user.toJSONString());
+			LogManager.getLogger(UserTestCase.class).info(user.toJSONString());
 			
 		}catch(SQLException sqle) {
 			System.out.println(sqle);
 		}
 		
 		System.out.println(user.toJSONString());
-		LogManager.getLogger(MapperTestCase.class).info(user.toJSONString());
+		LogManager.getLogger(UserTestCase.class).info(user.toJSONString());
 
 
 	}
