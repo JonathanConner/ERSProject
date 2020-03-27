@@ -4,12 +4,31 @@ package com.projectone.util;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.projectone.model.Reimbursement;
+import com.projectone.model.User;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class JSONConverter {
+	
+	
+	public static String writeUsersToJsonArray(List<User> users) throws IOException {  
+
+		final ByteArrayOutputStream out = new ByteArrayOutputStream();
+	    final ObjectMapper mapper = new ObjectMapper();
+
+	    mapper.writeValue(out, users);
+
+	    final byte[] data = out.toByteArray();
+	    StringBuilder sb = new StringBuilder();
+	    sb.append("{\"users\":");
+	    sb.append(new String(data));
+	    sb.append("}");
+	    return sb.toString();
+	}
+	
 	
 	public static String writeListToJsonArray(List<Reimbursement> reimbs) throws IOException {  
 

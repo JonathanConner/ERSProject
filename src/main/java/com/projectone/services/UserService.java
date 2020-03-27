@@ -1,5 +1,7 @@
 package com.projectone.services;
 
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -39,6 +41,10 @@ public class UserService {
 		}
 		logger.warn("Username: "+username +" NOT FOUND!");
 		return null;
+	}
+	
+	public List<User> findAll(){
+		return this.udao.findAll();
 	}
 	
 }

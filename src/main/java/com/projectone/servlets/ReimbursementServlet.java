@@ -56,7 +56,7 @@ public class ReimbursementServlet extends HttpServlet {
 			case "fetchall": fetchAll(request, response);
 				break;
 
-			case "fetchfor": fetchAll(request, response);
+			case "fetchfor": fetchFor(request, response);
 				break;
 		}
 

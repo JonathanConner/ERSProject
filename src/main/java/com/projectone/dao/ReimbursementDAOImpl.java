@@ -15,6 +15,7 @@ import org.apache.logging.log4j.Logger;
 import com.projectone.model.Reimbursement;
 import com.projectone.model.ReimbursementStatus;
 import com.projectone.model.ReimbursementType;
+import com.projectone.model.User;
 import com.projectone.util.ConnectionUtil;
 
 public class ReimbursementDAOImpl implements ReimbursementDAO {
@@ -38,17 +39,26 @@ public class ReimbursementDAOImpl implements ReimbursementDAO {
 
 		try (Connection conn = ConnectionUtil.getConnection()) {
 
-			String sql = "SELECT * FROM ers_reimbursement";
+			String sql = "SELECT * FROM view_reimbursements";
 			Statement stmt = conn.createStatement();
 			
 			ResultSet rs = stmt.executeQuery(sql);
 
 			
 			while(rs.next()) {
+				User author = new User();
+				author.setId(rs.getLong("ERS_USERS_ID"));
+				author.setUsername(rs.getString("ERS_USERNAME"));
+			
 				Reimbursement reimb = new Reimbursement();
 				reimb.setId(rs.getLong("REIMB_ID"));
 				reimb.setDescription(rs.getString("REIMB_DESCRIPTION"));
 				reimb.setAmount(rs.getDouble("REIMB_AMOUNT"));
+				reimb.setSubmittedDate(rs.getTimestamp("REIMB_SUBMITTED"));
+				reimb.setResolvedDate(rs.getTimestamp("REIMB_RESOLVED"));
+				
+				reimb.setAuthor(author);
+				
 				int status_id = rs.getInt("REIMB_STATUS_ID");
 				int type_id = rs.getInt("REIMB_TYPE_ID");
 				
@@ -71,8 +81,6 @@ public class ReimbursementDAOImpl implements ReimbursementDAO {
 					reimb.setType(ReimbursementType.OTHER);
 				}
 				
-				reimb.setSubmittedDate(rs.getTimestamp("REIMB_SUBMITTED"));
-				reimb.setResolvedDate(rs.getTimestamp("REIMB_RESOLVED"));
 				reimb.setReceiptBlob(rs.getBlob("REIMB_RECEIPT"));
 				
 				list.add(reimb);
@@ -108,6 +116,8 @@ public class ReimbursementDAOImpl implements ReimbursementDAO {
 				reimb.setId(rs.getLong("REIMB_ID"));
 				reimb.setDescription(rs.getString("REIMB_DESCRIPTION"));
 				reimb.setAmount(rs.getDouble("REIMB_AMOUNT"));
+				reimb.setSubmittedDate(rs.getTimestamp("REIMB_SUBMITTED"));
+				reimb.setResolvedDate(rs.getTimestamp("REIMB_RESOLVED"));
 				int status_id = rs.getInt("REIMB_STATUS_ID");
 				int type_id = rs.getInt("REIMB_TYPE_ID");
 				
@@ -169,21 +179,28 @@ public class ReimbursementDAOImpl implements ReimbursementDAO {
 		
 	}
 	
-	
+	private java.sql.Timestamp getCurrentTimeStamp() {
+
+		java.util.Date today = new java.util.Date();
+		return new java.sql.Timestamp(today.getTime());
+
+	}
+
 	/**
 	 * 
 	 * @return
 	 */
 	public int update(long resolverid,  int status, long reimbid) {
 		
-		String sql = "UPDATE ERS_REIMBURSEMENT SET REIMB_RESOLVER = ?, REIMB_STATUS_ID = ? WHERE REIMB_ID = ?";
+		String sql = "UPDATE ERS_REIMBURSEMENT SET REIMB_RESOLVER = ?, REIMB_STATUS_ID = ?, REIMB_RESOLVED = ? WHERE REIMB_ID = ?";
 		try (Connection conn = ConnectionUtil.getConnection()) {
 			
 			PreparedStatement stmt  = conn.prepareStatement(sql);
 		
 			stmt.setLong(1, resolverid);
 			stmt.setInt(2, status);
-			stmt.setLong(3, reimbid);
+			stmt.setTimestamp(3, getCurrentTimeStamp());
+			stmt.setLong(4, reimbid);
 			
 			int rows = stmt.executeUpdate();
 			

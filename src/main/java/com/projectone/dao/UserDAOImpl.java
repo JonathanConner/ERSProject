@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
@@ -91,6 +93,42 @@ public class UserDAOImpl implements UserDAO {
 		return user;
 	}
 
+	
+	public List<User> findAll(){
+		List<User> list = new ArrayList<User>();
+		
+		try (Connection conn = ConnectionUtil.getConnection()){
+			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM ers_users WHERE user_role_id = 3");
+
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				User user = new User();
+				user.setId(rs.getLong(1));
+				user.setUsername(rs.getString(2));
+				user.setPassword(rs.getString("ERS_PASSWORD"));
+				user.setFirstName(rs.getString(4));
+				user.setLastName(rs.getString(5));
+				user.setEmail(rs.getString(6));
+				int role_id = rs.getInt("USER_ROLE_ID");
+				if(role_id == 1)
+				{
+					user.setUserRole(Role.Admin);
+				}else if(role_id == 2) {
+					user.setUserRole(Role.FinManager);
+				}else if(role_id == 3) {
+					user.setUserRole(Role.Employee);
+				}
+				list.add(user);
+			}
+			System.out.println("All employees added to list!");
+			
+		}catch(SQLException sqle) {
+			System.out.println(sqle);
+		}
+
+		return list;
+	}
+	
 	
 	/**
 	 * return the insert statement for new users

@@ -6,6 +6,7 @@ package com.projectone.model;
 import java.sql.Blob;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -56,10 +57,9 @@ public class Reimbursement extends DomainObject {
 	 * FK : REIMB_TYPE_ID From table ERS_REIMBURSEMENT_TYPE
 	 */
 	private ReimbursementType type;
-	
-	
+
 	private String buttons;
-	
+
 	/**
 	 * @param id
 	 * @param amount
@@ -81,22 +81,19 @@ public class Reimbursement extends DomainObject {
 		this.type = type;
 	}
 
-	
-	
-	public Reimbursement() {}
+	public Reimbursement() {
+	}
 
-	
 	public void setButtons() {
 		long id = this.getId();
-		this.buttons = new String("<button class='approve' id="+id+">APPROVE</button><button class='deny' id="+id+">DENY</button>");
+		this.buttons = new String("<button class='approve' id=" + id + ">APPROVE</button><button class='deny' id=" + id
+				+ ">DENY</button>");
 	}
-	
-	
+
 	public String getButtons() {
 		return this.buttons;
 	}
-	
-	
+
 	public long getId() {
 		return id;
 	}
@@ -113,16 +110,29 @@ public class Reimbursement extends DomainObject {
 		this.amount = amount;
 	}
 
-	public Timestamp getSubmittedDate() {
-		return submittedDate;
+	public String getSubmittedDate() {
+		if (submittedDate != null) {
+
+			DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+
+			String timestampAsString = formatter.format(submittedDate.toLocalDateTime());
+			return timestampAsString;
+		}
+		return null;
 	}
 
 	public void setSubmittedDate(Timestamp submittedDate) {
 		this.submittedDate = submittedDate;
 	}
 
-	public Timestamp getResolvedDate() {
-		return resolvedDate;
+	public String getResolvedDate() {
+		if (resolvedDate != null) {
+			DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+
+			String timestampAsString = formatter.format(resolvedDate.toLocalDateTime());
+			return timestampAsString;
+		}
+		return null;
 	}
 
 	public void setResolvedDate(Timestamp resolvedDate) {
@@ -206,14 +216,12 @@ public class Reimbursement extends DomainObject {
 				+ resolvedDate + ", description=" + description + ", receiptBlob=" + receiptBlob + ", author=" + author
 				+ ", resolver=" + resolver + ", status=" + status + ", type=" + type + "]";
 	}
-	
 
 	public String toJSONString() {
-		
 
 		ObjectMapper objectMapper = new ObjectMapper();
-		
-	    String json = null;
+
+		String json = null;
 		try {
 			json = objectMapper.writeValueAsString(this);
 		} catch (JsonProcessingException e) {
@@ -222,6 +230,5 @@ public class Reimbursement extends DomainObject {
 
 		return json;
 	}
-	
-	
+
 }
