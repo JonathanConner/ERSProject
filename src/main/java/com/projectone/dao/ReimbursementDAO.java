@@ -9,5 +9,4 @@ public interface ReimbursementDAO {
 	public List<Reimbursement> findAllReimbursementsForUser(long uid);
 	public boolean insert(long userid, Reimbursement reimb);
 	public int update(long resolverid,  int status, long reimbid);
-
 }

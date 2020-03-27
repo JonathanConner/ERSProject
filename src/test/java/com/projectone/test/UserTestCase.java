@@ -19,6 +19,7 @@ import com.projectone.model.Role;
 import com.projectone.model.User;
 import com.projectone.model.mapper.AbstractMapper;
 import com.projectone.model.mapper.UserMapper;
+import com.projectone.security.PBKDF2Hasher;
 import com.projectone.security.SecurityService;
 import com.projectone.util.ConnectionUtil;
 
@@ -45,21 +46,6 @@ public class UserTestCase {
 	@After
 	public void tearDown() throws Exception {
 	}
-
-	/*
-	 * @Test public void testMapperFind() { User user = (User) this.am.find(1);
-	 * 
-	 * System.out.println(user.toJSONString());
-	 * 
-	 * }
-	 * 
-	 * @Test public void testMapperInsert() { // String[] str = new String[6]; //
-	 * str[0] = "thisisatest"; // str[1] = "password"; // str[2] = "test@test.com";
-	 * // str[3] = "Test"; // str[4] = "User"; // // if (this.am.insert(str)) //
-	 * System.out.println("REGISTER COMPLETE");
-	 * 
-	 * }
-	 */
 
 
 
@@ -95,5 +81,19 @@ public class UserTestCase {
 
 
 	}
+	@Test
+	public void testUserPasswordHash() {
+		String raw = "securepassword";
+		
+		System.out.println("RAW: "+raw);
+		
+		PBKDF2Hasher pbkdf2 = new PBKDF2Hasher();
+		String hashed = pbkdf2.hash(raw.toCharArray());
+		System.out.println("HASHED: "+ hashed);
 
+		
+		LogManager.getLogger(UserTestCase.class).info(pbkdf2.checkPassword(raw.toCharArray(), hashed));
+
+
+	}
 }

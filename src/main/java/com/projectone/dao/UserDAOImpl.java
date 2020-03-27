@@ -19,11 +19,11 @@ import com.projectone.util.ConnectionUtil;
 public class UserDAOImpl implements UserDAO {
 	
 	
-	protected Logger logger;
+	protected org.apache.logging.log4j.Logger logger;
 
 	public UserDAOImpl() {
 		super();
-		this.logger = (org.apache.logging.log4j.core.Logger) LogManager.getLogger(UserMapper.class);
+		this.logger = LogManager.getLogger(UserMapper.class);
 	}
 
 	/**

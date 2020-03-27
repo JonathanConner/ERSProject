@@ -59,7 +59,7 @@ public class AuthServlet extends HttpServlet {
 		  HttpSession session = req.getSession();
 		  
 		  session.invalidate();
-
+		  logger.info("User Logged Out!");
 		  resp.getWriter().println("logout success");
 
 		  
