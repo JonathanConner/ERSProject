@@ -42,69 +42,41 @@ public class AuthServlet extends HttpServlet {
 		this.logger = LogManager.getLogger();
 	}
 
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		resp.setContentType("application/json");
+		
+		String action = req.getParameter("action");
+
+		switch(action) {
+			case "logout":logout(req, resp);
+				break;
+		}
+		
+	}
+	
+	public void logout(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		  HttpSession session = req.getSession();
+		  
+		  session.invalidate();
+
+		  resp.getWriter().println("logout success");
+
+		  
+		
+	}
+	
 	/****
 	 * This Method Is Called By The Servlet Container To Process A 'POST' Request.
 	 ****/
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	
-//	      LoginTemplate template = new LoginTemplate();
-//	      template.setUsername(req.getParameter("username"));
-//	      template.setPassword(req.getParameter("password"));
-//	      User u = new User(1, template.getUsername(), template.getPassword(), "Matthew", "Oberlies", "matthew.oberlies@revature.com", null);
-//	      
-		  /*
-		   * The below commented out code is used to parse data from the body when not using forms
-		   */
-//	      BufferedReader reader = req.getReader();
-//	      StringBuilder sb = new StringBuilder();
-//	
-//	      String line = "";
-//	      while( (line = reader.readLine()) != null) {
-//	    	  sb.append(line);
-//	      }
-//	      
-//	      String body = sb.toString();
-//	      logger.info("\n"+body);
 
 		  LoginTemplate template = this.objectMapper.readValue(req.getInputStream(), LoginTemplate.class);
 		  
-		  
-//		  resp.setContentType("application/json");
-//		  
 		  System.out.println(template.toString());
 		  
-		  User user = new User();
-
-		  try (Connection conn = ConnectionUtil.getConnection()){
-
-			  PreparedStatement stmt = conn.prepareStatement("SELECT * FROM ERS_USERS WHERE ERS_USERNAME = ?");
-
-				stmt.setString(1, template.getUsername());
-
-				ResultSet rs = stmt.executeQuery();
-				rs.next();
-				
-				user.setId(rs.getLong(1));
-				user.setUsername(rs.getString(2));
-				user.setPassword(rs.getString(3));
-				user.setFirstName(rs.getString(4));
-				user.setLastName(rs.getString(5));
-				user.setEmail(rs.getString(6));
-				int role_id = rs.getInt("USER_ROLE_ID");
-				if(role_id == 1)
-				{
-					user.setUserRole(Role.Admin);
-				}else if(role_id == 2) {
-					user.setUserRole(Role.FinManager);
-				}else if(role_id == 3) {
-					user.setUserRole(Role.Employee);
-				}
-				LogManager.getLogger(UserDAOImpl.class).info(user.toJSONString());
-				
-			}catch(SQLException sqle) {
-				System.out.println(sqle);
-			}
-
+		  User user = this.us.authenticateUser(template.getUsername(), template.getPassword());
 		  
 		  HttpSession session = req.getSession();
 	      

@@ -67,14 +67,21 @@ public class UserDAOImpl implements UserDAO {
 
 			ResultSet rs = stmt.executeQuery();
 			rs.next();
-			
 			user.setId(rs.getLong(1));
 			user.setUsername(rs.getString(2));
-			user.setPassword(rs.getString(3));
+			user.setPassword(rs.getString("ERS_PASSWORD"));
 			user.setFirstName(rs.getString(4));
 			user.setLastName(rs.getString(5));
 			user.setEmail(rs.getString(6));
-			user.setUserRole(Role.Employee);
+			int role_id = rs.getInt("USER_ROLE_ID");
+			if(role_id == 1)
+			{
+				user.setUserRole(Role.Admin);
+			}else if(role_id == 2) {
+				user.setUserRole(Role.FinManager);
+			}else if(role_id == 3) {
+				user.setUserRole(Role.Employee);
+			}
 			LogManager.getLogger(UserDAOImpl.class).info(user.toJSONString());
 			
 		}catch(SQLException sqle) {

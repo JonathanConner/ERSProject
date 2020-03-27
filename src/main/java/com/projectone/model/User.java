@@ -24,7 +24,7 @@ public class User extends DomainObject{
 
 	private long id;
 	private String username;
-	private Password password = new Password();
+	private String password;
 	private String firstName;
 	private String lastName;
 	private String email;
@@ -58,7 +58,7 @@ public class User extends DomainObject{
 		super();
 		this.id = id;
 		this.username = username;
-		this.password.setValue(password);
+		this.password=password;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
@@ -83,12 +83,12 @@ public class User extends DomainObject{
 		this.username = username;
 	}
 
-	public Password getPassword() {
+	public String getPassword() {
 		return password;
 	}
 
 	public void setPassword(String value) {
-		this.password.setValue(value);
+		this.password = value;
 	}
 
 	public String getFirstName() {

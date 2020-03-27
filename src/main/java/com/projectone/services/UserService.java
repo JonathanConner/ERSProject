@@ -1,6 +1,7 @@
 package com.projectone.services;
 
-import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.projectone.dao.UserDAOImpl;
 import com.projectone.model.User;
@@ -16,6 +17,7 @@ public class UserService {
 	
 	public UserService() {
 		super();
+		this.logger = LogManager.getLogger(UserService.class);
 		this.udao = new UserDAOImpl();
 		this.sec = new SecurityService();
 	}
@@ -26,9 +28,12 @@ public class UserService {
 		String un = username;
 		User user = this.udao.findByUserName(un);
 		if(user !=null) {
-			boolean check = this.sec.checkPassword(password, user.getPassword().toString());
-			if(check) {
+			boolean check = this.sec.checkPassword(password, user.getPassword());
+			if(!check) {
 				logger.warn("Username and password missmatch!");
+				return user;
+			}else {
+				logger.info("User authenticated!");
 				return user;
 			}
 		}
